@@ -1,5 +1,3 @@
-using BuildingBlocks.Behaviours;
-
 var builder = WebApplication.CreateBuilder(args);
 
 //add services to the container
@@ -7,9 +5,17 @@ builder.Services.AddCarter();
 builder.Services.AddMediatR(config =>
 {
     config.RegisterServicesFromAssembly(typeof(Program).Assembly);
-    config.AddOpenBehavior(typeof(ValidationBehaviour<,>));
 });
-builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod(); // <- Must include PUT here
+    });
+});
 
 builder.Services
     .AddMarten(options =>
