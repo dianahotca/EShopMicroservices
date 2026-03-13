@@ -1,3 +1,5 @@
+using BuildingBlocks.Exceptions.Handlers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 //add services to the container
@@ -20,10 +22,12 @@ builder.Services
 })
     .UseLightweightSessions();
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 var app = builder.Build();
 
 //configure the HTTPS request pipeline
 app.MapCarter();
+app.UseExceptionHandler(options => { });
 
 app.Run();
