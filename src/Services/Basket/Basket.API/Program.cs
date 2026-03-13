@@ -11,6 +11,15 @@ builder.Services.AddMediatR(config =>
     config.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
 
+builder.Services
+    .AddMarten(options =>
+{
+    options.Connection(builder.Configuration.GetConnectionString("Database")!);
+    //specify the primary key for ShoppingCart table
+    options.Schema.For<ShoppingCart>().Identity(Cart => Cart.Username);
+})
+    .UseLightweightSessions();
+
 var app = builder.Build();
 
 //configure the HTTPS request pipeline
