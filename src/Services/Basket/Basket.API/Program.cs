@@ -19,6 +19,7 @@ builder.Services
     options.Schema.For<ShoppingCart>().Identity(Cart => Cart.Username);
 })
     .UseLightweightSessions();
+builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 
 var app = builder.Build();
 
