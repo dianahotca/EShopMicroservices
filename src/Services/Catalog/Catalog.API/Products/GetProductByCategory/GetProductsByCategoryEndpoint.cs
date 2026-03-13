@@ -1,6 +1,3 @@
-﻿
-using Catalog.API.Products.CreateProduct;
-
 namespace Catalog.API.Products.GetProductByCategory
 {
     //public record GetProductByCategoryRequest();

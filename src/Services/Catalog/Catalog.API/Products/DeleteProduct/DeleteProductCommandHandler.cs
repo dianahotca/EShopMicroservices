@@ -17,7 +17,7 @@ namespace Catalog.API.Products.DeleteProduct
 
             if (product is null)
             {
-                throw new ProductNotFoundException();
+                throw new ProductNotFoundException(command.Id);
             }
 
             session.Delete(product);

@@ -29,7 +29,7 @@ namespace Catalog.API.Products.UpdateProduct
 
             if (product is null)
             {
-                throw new ProductNotFoundException();
+                throw new ProductNotFoundException(command.Id);
             }
 
             product.Name = command.Name;
