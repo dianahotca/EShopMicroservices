@@ -5,18 +5,10 @@ builder.Services.AddCarter();
 builder.Services.AddMediatR(config =>
 {
     config.RegisterServicesFromAssembly(typeof(Program).Assembly);
+    config.AddOpenBehavior(typeof(ValidationBehavior<,>));
 });
-
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyHeader()
-              .AllowAnyMethod(); // <- Must include PUT here
-    });
-});
-
+builder.Services.AddValidatorsFromAssembly(assembly);
+builder.Services.AddCarter();
 builder.Services
     .AddMarten(options =>
     {
