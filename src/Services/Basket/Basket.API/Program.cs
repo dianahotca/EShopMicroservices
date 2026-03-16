@@ -1,4 +1,5 @@
 using BuildingBlocks.Exceptions.Handlers;
+using Microsoft.Extensions.Caching.Distributed;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +22,15 @@ builder.Services
     options.Schema.For<ShoppingCart>().Identity(Cart => Cart.Username);
 })
     .UseLightweightSessions();
+
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+builder.Services.Decorate<IBasketRepository, CachedBasketRepository>();
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    //options.InstanceName = Basket;
+});
+
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 var app = builder.Build();
