@@ -2,8 +2,10 @@
 
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER $APP_UID
+USER root
 WORKDIR /app
+RUN mkdir -p /app/data && chmod 777 /app/data
+USER $APP_UID
 EXPOSE 8080
 EXPOSE 8081
 
@@ -27,4 +29,10 @@ RUN dotnet publish "./Discount.GRPC.csproj" -c $BUILD_CONFIGURATION -o /app/publ
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+# Create data directory with proper permissions for SQLite
+USER root
+RUN mkdir -p /app/data && chmod 777 /app/data
+USER $APP_UID
+
 ENTRYPOINT ["dotnet", "Discount.GRPC.dll"]
