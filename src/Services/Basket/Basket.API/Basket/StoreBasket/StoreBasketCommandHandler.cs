@@ -18,10 +18,11 @@
     {
         public async Task<StoreBasketResult> Handle(StoreBasketCommand command, CancellationToken cancellationToken)
         {
-            ShoppingCart cart = command.Cart;
+            //TODO: communicate with Dsicount.Grpc and calculate latest price of product after applying the discount
 
-            //store basket in database using Marten upsert - if exists -> update, otherwise -> create)
-            var storedCart = await repository.StoreBasket(cart, cancellationToken);
+
+            //store basket in database using Marten upsert - if exists -> update, otherwise -> create
+            var storedCart = await repository.StoreBasket(command.Cart, cancellationToken);
 
             return new StoreBasketResult(storedCart.Username);
         }
