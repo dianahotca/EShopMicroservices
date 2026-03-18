@@ -1,13 +1,31 @@
-﻿using Grpc.Core;
+﻿using Discount.GRPC.Data;
+using Discount.GRPC.Models;
+using Grpc.Core;
+using Mapster;
+using Microsoft.EntityFrameworkCore;
 
 namespace Discount.GRPC.Services
 {
-    public class DiscountService : DiscountProtoService.DiscountProtoServiceBase
+    public class DiscountService 
+        (DiscountContext dbContext, ILogger<DiscountService> logger)
+        : DiscountProtoService.DiscountProtoServiceBase
     {
-        public override Task<CouponModel> GetDiscount(GetDiscountRequest request, ServerCallContext context)
+        public override async Task<CouponModel> GetDiscount(GetDiscountRequest request, ServerCallContext context)
         {
-            //TODO: GetDiscount from db
-            return base.GetDiscount(request, context);
+            var coupon = await dbContext
+                .Coupons
+                .FirstOrDefaultAsync(coupon => coupon.ProductName == request.ProductName);
+
+            if(coupon is null)
+            {
+                coupon = new Coupon { ProductName = "No Discount", Description = "No Discount Description", Amount = 0 };
+            }
+
+            logger.LogInformation($"Discount is retreived for ProductName: {coupon.ProductName}, Amout: {coupon.Amount}");
+
+            CouponModel couponModel = coupon.Adapt<CouponModel>();
+
+            return couponModel;
         }
 
         public override Task<CouponModel> CreateDiscount(CreateDiscountRequest request, ServerCallContext context)
