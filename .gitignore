@@ -422,3 +422,10 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# SQLite
+*.db
+*.db-shm
+*.db-wal
+discountdb*
+
