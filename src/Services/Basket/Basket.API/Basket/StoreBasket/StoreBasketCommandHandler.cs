@@ -1,4 +1,6 @@
-﻿namespace Basket.API.Basket.StoreBasket
+﻿using Discount.GRPC;
+
+namespace Basket.API.Basket.StoreBasket
 {
     public record StoreBasketCommand(ShoppingCart Cart) : ICommand<StoreBasketResult>;
     public record StoreBasketResult(string Username);
@@ -13,18 +15,27 @@
     }
 
     public class StoreBasketCommandHandler
-        (IBasketRepository repository) 
+        (IBasketRepository repository, DiscountProtoService.DiscountProtoServiceClient discountProto)
         : ICommandHandler<StoreBasketCommand, StoreBasketResult>
     {
         public async Task<StoreBasketResult> Handle(StoreBasketCommand command, CancellationToken cancellationToken)
         {
-            //TODO: communicate with Dsicount.Grpc and calculate latest price of product after applying the discount
-
-
+            await DeductDiscount(command.Cart, cancellationToken);
             //store basket in database using Marten upsert - if exists -> update, otherwise -> create
             var storedCart = await repository.StoreBasket(command.Cart, cancellationToken);
 
             return new StoreBasketResult(storedCart.Username);
         }
+
+        private async Task DeductDiscount(ShoppingCart cart, CancellationToken cancellationToken)
+        {
+            foreach (var item in cart.Items)
+            {
+                //communicate with Discount.Grpc and calculate latest price of product after applying the discount
+                var coupon = await discountProto.GetDiscountAsync(new GetDiscountRequest { ProductName = item.ProductName }, cancellationToken: cancellationToken);
+                item.Price -= coupon.Amount;
+            }
+        }
     }
+
 }
