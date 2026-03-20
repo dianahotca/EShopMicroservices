@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
 
 namespace Ordering.Application
 {
@@ -9,10 +9,12 @@ namespace Ordering.Application
         {
             var connectionString = configuration.GetConnectionString("Database");
 
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //{
-            //    options.UseSqlServer(connectionString);
-            //});
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(connectionString);
+            });
+
+            //services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 
             return services;
         }
