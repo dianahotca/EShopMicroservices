@@ -15,7 +15,7 @@ namespace Ordering.Infrastructure.Data.Configurations
                 dbId => ProductId.Of(dbId));
 
             builder.Property(product => product.Name).IsRequired().HasMaxLength(100);
-            builder.Property(product => product.Price).IsRequired().HasPrecision(2);
+            builder.Property(product => product.Price).IsRequired().HasPrecision(18, 2);
         }
     }
 }
