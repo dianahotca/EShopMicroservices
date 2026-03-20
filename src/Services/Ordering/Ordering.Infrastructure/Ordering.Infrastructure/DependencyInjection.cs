@@ -1,5 +1,6 @@
 ﻿global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Ordering.Application
 {
@@ -9,9 +10,11 @@ namespace Ordering.Application
         {
             var connectionString = configuration.GetConnectionString("Database");
 
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+            services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
+            services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
             {
-                options.AddInterceptors(new AuditableEntityInterceptor());
+                options.AddInterceptors(serviceProvider.GetServices<ISaveChangesInterceptor>());
                 options.UseSqlServer(connectionString);
             });
 
