@@ -1,6 +1,6 @@
-﻿namespace Ordering.Application.DTOs
+﻿namespace Ordering.Application.Extensions
 {
-    public static class OrderingExtensions
+    public static class OrderExtensions
     {
         public static OrderDto ToOrderDto(this Order order)
         {
@@ -48,6 +48,11 @@
                 Quantity: orderItem.Quantity,
                 Price: orderItem.Price
             );
+        }
+
+        public static IEnumerable<OrderDto> ToOrderDtoList(this IEnumerable<Order> orders)
+        {
+            return orders.Select(o => o.ToOrderDto()).ToList();
         }
     }
 }
