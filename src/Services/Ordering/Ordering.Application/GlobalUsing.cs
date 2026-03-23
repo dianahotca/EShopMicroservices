@@ -1,5 +1,6 @@
 ﻿global using MediatR;
 global using FluentValidation;
+global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.Logging;
 
 global using BuildingBlocks.CQRS;
