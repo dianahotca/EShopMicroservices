@@ -9,4 +9,5 @@
         {
             RuleFor(deleteOrderCommand => deleteOrderCommand.orderId).NotEmpty().WithMessage("OrderId is required");
         }
+    }
 }
