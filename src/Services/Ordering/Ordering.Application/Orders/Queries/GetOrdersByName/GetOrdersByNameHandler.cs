@@ -1,4 +1,6 @@
-﻿namespace Ordering.Application.Orders.Queries.GetOrdersByName
+﻿using Ordering.Application.Extensions;
+
+namespace Ordering.Application.Orders.Queries.GetOrdersByName
 {
     public class GetOrdersByNameHandler
         (IApplicationDbContext dbContext)
@@ -13,9 +15,7 @@
                 .OrderBy(order => order.OrderName)
                 .ToListAsync(cancellationToken);
 
-            var orderDtos = orders.Select(o => o.ToOrderDto()).ToList();
-
-            return new GetOrdersByNameResult(orderDtos);
+            return new GetOrdersByNameResult(orders.ToOrderDtoList());
         }
     }
 }
