@@ -20,7 +20,7 @@ namespace Ordering.Application.Orders.Queries.GetOrders
                 .Take(pageSize)
                 .ToListAsync(cancellationToken);
 
-            var paginatedResult = new PaginatedResult<OrderDto>(pageIndex, pageSize, count, orders.ToOrderDtoList());
+            var paginatedResult = new PaginatedResult<OrderResponseDto>(pageIndex, pageSize, count, orders.ToOrderResponseDtoList());
 
             return new GetOrdersResult(paginatedResult);
         }

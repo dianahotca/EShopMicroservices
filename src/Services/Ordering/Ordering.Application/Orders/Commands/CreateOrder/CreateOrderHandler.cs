@@ -25,7 +25,7 @@
             var payment = Payment.Of(paymentFromDto.CardName, paymentFromDto.CardNumber, paymentFromDto.Expiration, paymentFromDto.Cvv, paymentFromDto.PaymentMethod);
 
             var newOrder = Order.Create(
-                id: OrderId.Of(orderDto.Id),
+                id: OrderId.Of(Guid.NewGuid()),
                 customerId: CustomerId.Of(orderDto.CustomerId),
                 orderName: OrderName.Of(orderDto.OrderName),
                 shippingAddress,

@@ -9,10 +9,9 @@ namespace Ordering.API.Endpoints
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            //TODO: add id as route param
-            app.MapPut("/orders", async (UpdateOrderRequest request, ISender sender) =>
+            app.MapPut("/orders/{orderId}", async (Guid orderId, UpdateOrderRequest request, ISender sender) =>
             {
-                var command = request.Adapt<UpdateOrderCommand>();
+                var command = new UpdateOrderCommand(orderId, request.Order);
                 var result = await sender.Send(command);
                 var response = result.Adapt<UpdateOrderResponse>();
 

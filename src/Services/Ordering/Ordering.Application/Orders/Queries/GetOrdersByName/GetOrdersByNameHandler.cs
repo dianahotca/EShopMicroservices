@@ -15,7 +15,7 @@ namespace Ordering.Application.Orders.Queries.GetOrdersByName
                 .OrderBy(order => order.OrderName)
                 .ToListAsync(cancellationToken);
 
-            return new GetOrdersByNameResult(orders.ToOrderDtoList());
+            return new GetOrdersByNameResult(orders.ToOrderResponseDtoList());
         }
     }
 }

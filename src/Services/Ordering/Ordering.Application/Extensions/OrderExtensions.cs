@@ -2,9 +2,9 @@
 {
     public static class OrderExtensions
     {
-        public static OrderDto ToOrderDto(this Order order)
+        public static OrderResponseDto ToOrderResponseDto(this Order order)
         {
-            return new OrderDto(
+            return new OrderResponseDto(
                 Id: order.Id.Value,
                 CustomerId: order.CustomerId.Value,
                 OrderName: order.OrderName.Value,
@@ -50,9 +50,9 @@
             );
         }
 
-        public static IEnumerable<OrderDto> ToOrderDtoList(this IEnumerable<Order> orders)
+        public static IEnumerable<OrderResponseDto> ToOrderResponseDtoList(this IEnumerable<Order> orders)
         {
-            return orders.Select(o => o.ToOrderDto()).ToList();
+            return orders.Select(o => o.ToOrderResponseDto()).ToList();
         }
     }
 }
