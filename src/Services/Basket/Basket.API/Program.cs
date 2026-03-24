@@ -1,11 +1,12 @@
 using BuildingBlocks.Exceptions.Handlers;
+using BuildingBlocks.Messaging.MassTransit;
 using Discount.GRPC;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//add services to the container
+//Add services to the container
 
 //Application Services
 var assembly = typeof(Program).Assembly;
@@ -53,6 +54,9 @@ builder.Services
 
         return handler;
     });
+
+//Async Communication Services
+builder.Services.AddMessageBroker(builder.Configuration);
 
 //Cross-Cutting Services
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
