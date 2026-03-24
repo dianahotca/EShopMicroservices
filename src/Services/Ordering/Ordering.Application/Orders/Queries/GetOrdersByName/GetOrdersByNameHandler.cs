@@ -12,7 +12,7 @@ namespace Ordering.Application.Orders.Queries.GetOrdersByName
                 .Include(order => order.OrderItems)
                 .AsNoTracking()
                 .Where(order => order.OrderName.Value.Contains(query.Name))
-                .OrderBy(order => order.OrderName)
+                .OrderBy(order => order.OrderName.Value)
                 .ToListAsync(cancellationToken);
 
             return new GetOrdersByNameResult(orders.ToOrderResponseDtoList());

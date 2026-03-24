@@ -3,13 +3,13 @@
 namespace Ordering.API.Endpoints
 {
     //public record GetOrdersByCustomerRequest(Guid CustomerId);
-    public record GetOrdersByCustomerResponse(IEnumerable<OrderDto> Orders);
+    public record GetOrdersByCustomerResponse(IEnumerable<OrderResponseDto> Orders);
 
     public class GetOrdersByCustomer : ICarterModule
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("/orders/{customerId}", async (Guid customerId, ISender sender) =>
+            app.MapGet("/orders/customer/{customerId}", async (Guid customerId, ISender sender) =>
             {
                 var query = new GetOrdersByCustomerQuery(customerId);
                 var result = await sender.Send(query);

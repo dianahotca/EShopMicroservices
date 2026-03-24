@@ -4,7 +4,7 @@ using Ordering.Application.Orders.Queries.GetOrders;
 namespace Ordering.API.Endpoints
 {
     //public record GetOrdersRequest(PaginationRequest paginationRequest);
-    public record GetOrdersResponse(PaginatedResult<OrderDto> Orders);
+    public record GetOrdersResponse(PaginatedResult<OrderResponseDto> Orders);
 
     public class GetOrders : ICarterModule
     {
