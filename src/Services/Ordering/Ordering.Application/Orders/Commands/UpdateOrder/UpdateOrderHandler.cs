@@ -7,7 +7,9 @@
         public async Task<UpdateOrderResult> Handle(UpdateOrderCommand command, CancellationToken cancellationToken)
         {
             var orderId = OrderId.Of(command.OrderId);
-            var order = await dbContext.Orders.FindAsync([orderId], cancellationToken);
+            var order = await dbContext.Orders
+                .Include(o => o.OrderItems)
+                .FirstOrDefaultAsync(o => o.Id == orderId, cancellationToken);
 
             if(order is null)
             {
