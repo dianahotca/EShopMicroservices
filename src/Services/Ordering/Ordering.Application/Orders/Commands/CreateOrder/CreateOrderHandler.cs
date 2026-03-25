@@ -6,14 +6,14 @@
     {
         public async Task<CreateOrderResult> Handle(CreateOrderCommand command, CancellationToken cancellationToken)
         {
-            var order = CreateNewOrder(command.Order);
+            var order = MapOrderDtoToOrder(command.Order);
             dbContext.Orders.Add(order);
             await dbContext.SaveChangesAsync(cancellationToken);
 
             return new CreateOrderResult(order.Id.Value);
         }
 
-        private Order CreateNewOrder(OrderDto orderDto)
+        private Order MapOrderDtoToOrder(OrderDto orderDto)
         {
             var shippingAddressFromDto = orderDto.ShippingAddress;
             var shippingAddress = Address.Of(shippingAddressFromDto.FirstName, shippingAddressFromDto.LastName, shippingAddressFromDto.EmailAddress, shippingAddressFromDto.AddressLine, shippingAddressFromDto.Country, shippingAddressFromDto.State, shippingAddressFromDto.ZipCode);
@@ -25,7 +25,6 @@
             var payment = Payment.Of(paymentFromDto.CardName, paymentFromDto.CardNumber, paymentFromDto.Expiration, paymentFromDto.Cvv, paymentFromDto.PaymentMethod);
 
             var newOrder = Order.Create(
-                id: OrderId.Of(Guid.NewGuid()),
                 customerId: CustomerId.Of(orderDto.CustomerId),
                 orderName: OrderName.Of(orderDto.OrderName),
                 shippingAddress,
