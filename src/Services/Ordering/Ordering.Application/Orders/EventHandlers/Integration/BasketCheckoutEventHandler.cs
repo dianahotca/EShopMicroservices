@@ -23,7 +23,7 @@ namespace Ordering.Application.Orders.EventHandlers.Integration
 
             var orderDto = new OrderDto(
                 CustomerId: message.CustomerId,
-                OrderName: message.UserName,
+                OrderName: message.Username,
                 ShippingAddress: addressDto,
                 BillingAddress: addressDto,
                 Payment: paymentDto,
