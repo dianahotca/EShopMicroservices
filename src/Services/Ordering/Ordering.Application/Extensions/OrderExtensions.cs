@@ -12,7 +12,7 @@
                 BillingAddress: order.BillingAddress.ToAddressDto(),
                 Payment: order.Payment.ToPaymentDto(),
                 Status: order.Status,
-                OrderItems: order.OrderItems.Select(oi => oi.ToOrderItemDto()).ToList()
+                OrderItems: order.OrderItems.Select(oi => oi.ToOrderItemResponseDto()).ToList()
             );
         }
 
@@ -40,9 +40,9 @@
             );
         }
 
-        public static OrderItemDto ToOrderItemDto(this OrderItem orderItem)
+        public static OrderItemResponseDto ToOrderItemResponseDto(this OrderItem orderItem)
         {
-            return new OrderItemDto(
+            return new OrderItemResponseDto(
                 OrderId: orderItem.OrderId.Value,
                 ProductId: orderItem.ProductId.Value,
                 Quantity: orderItem.Quantity,

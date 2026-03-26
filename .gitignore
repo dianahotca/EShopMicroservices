@@ -9,6 +9,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.slnLaunch
 *.env
 
 # SQLite database files
@@ -16,6 +17,9 @@
 *.db-shm
 *.db-wal
 discountdb*
+**/discount.db
+**/discount.db-shm
+**/discount.db-wal
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

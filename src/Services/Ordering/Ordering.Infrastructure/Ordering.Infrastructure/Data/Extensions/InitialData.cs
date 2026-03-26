@@ -30,7 +30,6 @@ namespace Ordering.Infrastructure.Data.Extensions
                 var payment2 = Payment.Of("alin", "8885555555554444", "06/30", "222", 2);
 
                 var order1 = Order.Create(
-                                OrderId.Of(Guid.NewGuid()),
                                 CustomerId.Of(new Guid("58c49479-ec65-4de2-86e7-033c546291aa")),
                                 OrderName.Of("ORD_1"),
                                 shippingAddress: address1,
@@ -40,7 +39,6 @@ namespace Ordering.Infrastructure.Data.Extensions
                 order1.Add(ProductId.Of(new Guid("c67d6323-e8b1-4bdf-9a75-b0d0d2e7e914")), 1, 400);
 
                 var order2 = Order.Create(
-                                OrderId.Of(Guid.NewGuid()),
                                 CustomerId.Of(new Guid("189dc8dc-990f-48e0-a37b-e6f2b60b9d7d")),
                                 OrderName.Of("ORD_2"),
                                 shippingAddress: address2,
